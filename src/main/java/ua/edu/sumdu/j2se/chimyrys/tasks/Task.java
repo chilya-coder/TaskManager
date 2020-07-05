@@ -35,7 +35,7 @@ public class Task {
     public boolean isActive() {
         return active;
     }
-    void setActive(boolean active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 
@@ -91,6 +91,32 @@ public class Task {
             return 0;
         } else {
             return interval;
+        }
+    }
+    public int nextTimeAfter (int current) {
+        if (!isActive()) {
+            return -1;
+        }
+        if (!isRepeated()) {
+            if (current < getTime()) {
+                return getTime();
+            } else {
+                return -1;
+            }
+        }
+        else {
+            if (getStartTime() > current) {
+                return getStartTime();
+            } else if (getEndTime() <= current) {
+                return -1;
+            } else {
+                for (int i = start; i < end ; i += interval) {
+                    if (i > current) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
         }
     }
 }
