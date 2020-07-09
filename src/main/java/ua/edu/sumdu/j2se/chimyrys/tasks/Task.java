@@ -12,6 +12,9 @@ public class Task {
 
     public Task(String title, int time) {
         this.title = title;
+        if (time < 0) {
+            throw new IllegalArgumentException();
+        }
         this.time = time;
         this.interval = 0;
         this.start = 0;
@@ -20,6 +23,9 @@ public class Task {
     }
     public Task(String title, int start, int end, int interval) {
         this.title = title;
+        if (start < 0 || end < 0 || interval <0) {
+            throw new IllegalArgumentException();
+        }
         this.start = start;
         this.end = end;
         this.interval = interval;
@@ -50,6 +56,9 @@ public class Task {
     }
 
     public void setTime(int time) {
+        if (time < 0) {
+            throw new IllegalArgumentException();
+        }
         if (isRepeated()) {
             this.start = 0;
             this.end = 0;
@@ -59,7 +68,12 @@ public class Task {
     }
 
     public void setTime(int start, int end, int interval) {
-        time = 0;
+        if (start < 0 || end < 0 || interval < 0) {
+            throw new IllegalArgumentException();
+        }
+        if (!isRepeated()) {
+            time = 0;
+        }
         this.start = start;
         this.end = end;
         this.interval = interval;
@@ -138,5 +152,17 @@ public class Task {
     @Override
     public int hashCode() {
         return Objects.hash(title, time, start, end, interval, active);
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "title='" + title + '\'' +
+                ", time=" + time +
+                ", start=" + start +
+                ", end=" + end +
+                ", interval=" + interval +
+                ", active=" + active +
+                '}';
     }
 }
