@@ -1,6 +1,6 @@
 package ua.edu.sumdu.j2se.chimyrys.tasks;
 
-public class LinkedTaskList {
+public class LinkedTaskList extends AbstractTaskList {
     private Node firstNode;
     private Node lastNode;
     private class Node {
@@ -10,6 +10,7 @@ public class LinkedTaskList {
             this.task = task;
         }
     }
+    @Override
     public void add(Task task) {
         if (firstNode == null) {
             firstNode = new Node(task);
@@ -20,6 +21,7 @@ public class LinkedTaskList {
         lastNode.nextNode = nextNode;
         lastNode = nextNode;
     }
+    @Override
     public int size() {
         if (firstNode == null) {
             return 0;
@@ -35,6 +37,7 @@ public class LinkedTaskList {
         }
         return listSize;
     }
+    @Override
     public Task getTask(int index) {
         if (index >= size()) {
             throw new IndexOutOfBoundsException();
@@ -48,6 +51,7 @@ public class LinkedTaskList {
         }
         return null;
     }
+    @Override
     public boolean remove(Task task) {
         Node current = firstNode;
         if (current.task.equals(task)) {
@@ -67,15 +71,5 @@ public class LinkedTaskList {
             current = current.nextNode;
         }
         return false;
-    }
-    public LinkedTaskList incoming(int from, int to) {
-        LinkedTaskList list = new LinkedTaskList();
-        for (int i = 0; i < size(); ++i) {
-            int taskNextTime = getTask(i).nextTimeAfter(from);
-            if (taskNextTime <= to && taskNextTime != -1) {
-                list.add(getTask(i));
-            }
-        }
-        return list;
     }
 }
