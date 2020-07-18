@@ -1,6 +1,6 @@
 package ua.edu.sumdu.j2se.chimyrys.tasks;
 
-public abstract class AbstractTaskList {
+public abstract class AbstractTaskList implements Iterable<Task>, Cloneable {
     public abstract void add(Task task);
     public abstract int size();
     public abstract boolean remove(Task task);

@@ -2,7 +2,7 @@ package ua.edu.sumdu.j2se.chimyrys.tasks;
 
 import java.util.Objects;
 
-public class Task {
+public class Task implements Cloneable{
     private String title;
     private int time;
     private int start;
@@ -164,5 +164,15 @@ public class Task {
                 ", interval=" + interval +
                 ", active=" + active +
                 '}';
+    }
+    public Object clone() throws CloneNotSupportedException {
+        Task clonedTask = (Task) super.clone();
+
+        return clonedTask;
+        /*if (this.time != 0) {
+            return new Task(this.title, this.time);
+        }
+        return new Task(this.title, this.start, this.end, this.interval);*/
+
     }
 }

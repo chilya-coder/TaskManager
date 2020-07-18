@@ -1,13 +1,45 @@
 package ua.edu.sumdu.j2se.chimyrys.tasks;
 
+import java.util.Iterator;
+import java.util.Objects;
+
 public class LinkedTaskList extends AbstractTaskList {
     private Node firstNode;
     private Node lastNode;
-    private class Node {
+
+    private class Node implements Cloneable {
         private Task task;
         private Node nextNode;
         public Node(Task task) {
             this.task = task;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            Node node = (Node) o;
+            return Objects.equals(task, node.task)
+                    && Objects.equals(nextNode, node.nextNode);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(task, nextNode);
+        }
+
+        @Override
+        public Object clone() throws CloneNotSupportedException {
+           Node node = (Node) super.clone();
+            node.task = (Task) task.clone();
+           if (nextNode != null) {
+               node.nextNode = (Node) nextNode.clone();
+           }
+           return node;
         }
     }
     @Override
@@ -71,5 +103,87 @@ public class LinkedTaskList extends AbstractTaskList {
             current = current.nextNode;
         }
         return false;
+    }
+    @Override
+    public Iterator iterator() {
+        return new LinkedTaskListIterator();
+    }
+    private class LinkedTaskListIterator implements Iterator<Task> {
+        private Node currentNode = firstNode;
+        private Task currentTask;
+        private Node previousNode = null;
+        private Node startNode = firstNode;
+        @Override
+        public boolean hasNext() {
+            return startNode.nextNode != null;
+        }
+
+        @Override
+        public Task next() {
+            previousNode = currentNode;
+            startNode = currentNode;
+            currentTask = currentNode.task;
+            currentNode = currentNode.nextNode;
+            return currentTask;
+        }
+
+        @Override
+        public void remove() {
+            if (previousNode == null) {
+                throw new IllegalStateException();
+            }
+            if (previousNode.equals(firstNode)) {
+                firstNode = firstNode.nextNode;
+                return;
+            }
+            if (currentTask.equals(lastNode.task)) {
+                Node dummyNode = firstNode;
+                while (!(dummyNode.nextNode.equals(lastNode))) {
+                    dummyNode = dummyNode.nextNode;
+                }
+                lastNode = dummyNode;
+                dummyNode.nextNode = null;
+            }
+            if (previousNode.nextNode.equals(currentNode)) {
+                Node dummyNode = firstNode;
+                while (!(dummyNode.nextNode.equals(previousNode))) {
+                    dummyNode = dummyNode.nextNode;
+                }
+                dummyNode.nextNode = previousNode.nextNode;
+            }
+        }
+
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        LinkedTaskList that = (LinkedTaskList) o;
+        return Objects.equals(firstNode, that.firstNode)
+                && Objects.equals(lastNode, that.lastNode);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstNode, lastNode);
+    }
+
+    public Object clone() throws CloneNotSupportedException {
+        LinkedTaskList linkedTaskList = (LinkedTaskList) super.clone();
+        linkedTaskList.firstNode = (Node) firstNode.clone();
+        Node someNode = linkedTaskList.firstNode;
+        for (int i = 0; i < size(); ++i) {
+            if (someNode.nextNode.equals(lastNode)) {
+                linkedTaskList.lastNode = someNode.nextNode;
+                return linkedTaskList;
+            }
+            someNode = someNode.nextNode;
+        }
+        return linkedTaskList;
     }
 }

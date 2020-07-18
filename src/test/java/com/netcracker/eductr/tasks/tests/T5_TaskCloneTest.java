@@ -32,6 +32,7 @@ public class T5_TaskCloneTest {
 		Assert.assertEquals("{ x.clone().getClass() == x.getClass() } не виконується", origRef.getClass(), cloneRef.getClass());
 
 		Assert.assertTrue("{ x.clone().equals(x) } не виконується", areEqual(original, copy));
+
 	}
 
 	@Test
