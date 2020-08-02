@@ -3,6 +3,7 @@ package ua.edu.sumdu.j2se.chimyrys.tasks;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 public class ArrayTaskList extends AbstractTaskList {
     private Task[] tasks;
@@ -52,6 +53,12 @@ public class ArrayTaskList extends AbstractTaskList {
             throw new IndexOutOfBoundsException();
         }
         return tasks[index];
+    }
+
+    @Override
+    public Stream<Task> getStream() {
+        Stream<Task> stream = Arrays.stream(tasks).filter(x-> x != null);
+        return stream;
     }
 
     @Override

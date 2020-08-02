@@ -1,7 +1,10 @@
 package ua.edu.sumdu.j2se.chimyrys.tasks;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 public class LinkedTaskList extends AbstractTaskList {
     private Node firstNode;
@@ -83,6 +86,18 @@ public class LinkedTaskList extends AbstractTaskList {
         }
         return null;
     }
+
+    @Override
+    public Stream<Task> getStream() {
+        Task [] list = new Task [size()];
+        Iterator<Task> it = iterator();
+        for (int i = 0; it.hasNext(); ++i) {
+            list[i] = it.next();
+        }
+        Stream<Task> stream = Arrays.stream(list);
+        return stream;
+    }
+
     @Override
     public boolean remove(Task task) {
         Node current = firstNode;
