@@ -109,9 +109,14 @@ public class ArrayTaskList extends AbstractTaskList {
             return false;
         }
         for (int i = 0; i < size(); ++i) {
-            if (!this.getTask(i).equals(list.getTask(i))) {
-                return false;
+            if (this.getTask(i) == null && list.getTask(i) == null) {
+                return true;
             }
+        }
+        for (int i = 0; i < size(); ++i) {
+                if (!this.getTask(i).equals(list.getTask(i))) {
+                    return false;
+                }
         }
         return true;
     }

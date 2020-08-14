@@ -44,7 +44,7 @@ public class T5_TaskEqualsTest {
 		modify(a);
 		modify(b);
 
-		Assert.assertTrue("Об'єкти мають бути рівні: " + describeTask(a) + " та " + describeTask(b), a.equals(b));
+ 		Assert.assertTrue("Об'єкти мають бути рівні: " + describeTask(a) + " та " + describeTask(b), a.equals(b));
 	}
 
 	@Test
