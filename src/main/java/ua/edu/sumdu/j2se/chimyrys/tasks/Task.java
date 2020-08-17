@@ -3,7 +3,7 @@ package ua.edu.sumdu.j2se.chimyrys.tasks;
 import java.util.Objects;
 import java.time.LocalDateTime;
 
-public class Task implements Cloneable {
+public class Task implements Cloneable{
     private String title;
     private LocalDateTime time;
     private LocalDateTime start;
