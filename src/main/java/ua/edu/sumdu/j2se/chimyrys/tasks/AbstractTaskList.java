@@ -11,8 +11,10 @@ public abstract class AbstractTaskList implements Iterable<Task>, Cloneable {
     public abstract Stream<Task> getStream();
     public final AbstractTaskList incoming(LocalDateTime from, LocalDateTime to) {
         AbstractTaskList answerList = new ArrayTaskList();
-        getStream().filter(task -> task.getTime().isBefore(task.nextTimeAfter(from))
-                && task.getTime().isBefore(to)).forEach(task -> answerList.add(task));
+        getStream().filter(task -> task.getTime().isBefore
+                (task.nextTimeAfter(from))
+                && task.getTime().isBefore(to))
+                .forEach(task -> answerList.add(task));
         return answerList;
     }
 }
