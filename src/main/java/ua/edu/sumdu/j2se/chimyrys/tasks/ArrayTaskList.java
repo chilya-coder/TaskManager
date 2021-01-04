@@ -57,8 +57,8 @@ public class ArrayTaskList extends AbstractTaskList {
 
     @Override
     public Stream<Task> getStream() {
-        Stream<Task> stream = Arrays.stream(tasks).filter(x-> x != null);
-        return stream;
+            Stream<Task> stream = Arrays.stream(tasks).filter(x -> x != null);
+            return stream;
     }
 
     @Override
