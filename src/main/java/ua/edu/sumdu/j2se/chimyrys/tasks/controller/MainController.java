@@ -1,16 +1,15 @@
 package ua.edu.sumdu.j2se.chimyrys.tasks.controller;
 
-import ua.edu.sumdu.j2se.chimyrys.tasks.model.ArrayTaskList;
 import ua.edu.sumdu.j2se.chimyrys.tasks.model.TaskIO;
 import ua.edu.sumdu.j2se.chimyrys.tasks.view.MainView;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.NoSuchElementException;
 
-public class MainController extends Controller{
-
+public class MainController extends Controller {
     public MainController() {
-        model = new ArrayTaskList();
         File file = new File("test.json");
         try (FileInputStream fileInputStream = new FileInputStream(file)) {
             file.createNewFile();
@@ -20,8 +19,15 @@ public class MainController extends Controller{
         }
     }
 
+    /**
+     * Method that calls specified controller via
+     * user's choice provided in MainView.
+     * Throws NoSuchElementException if user's choice was invalid.
+     * Throws Exception if Controller object stays null
+     */
     @Override
     public void action() {
+        //model = new ArrayTaskList();
         MainView view = new MainView();
         view.printMainMenu();
         UserChoice userChoice = null;
@@ -33,6 +39,7 @@ public class MainController extends Controller{
             return;
         }
         Controller controller = null;
+        boolean go = true;
         switch (userChoice) {
             case SHOW_ALL_TASKS:
                 controller = new AllTasksController();
@@ -40,11 +47,16 @@ public class MainController extends Controller{
             case SHOW_CALENDAR:
                 controller = new CalendarController();
                 break;
-            case ADD_UPDATE_TASK:
+            case ADD_UPDATE_DELETE_TASK:
+                controller = new ModifyController();
                 break;
             case SHOW_TASK_INFO:
                 controller = new ShowTaskController();
-
+                break;
+            case QUIT:
+                System.out.println("See you later!");
+                System.exit(0);
+                break;
         }
         try {
             controller.action();
