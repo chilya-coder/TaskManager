@@ -1,4 +1,4 @@
-package ua.edu.sumdu.j2se.chimyrys.tasks;
+package ua.edu.sumdu.j2se.chimyrys.tasks.model;
 
 
 import com.google.gson.Gson;

@@ -1,8 +1,7 @@
-package ua.edu.sumdu.j2se.chimyrys.tasks;
+package ua.edu.sumdu.j2se.chimyrys.tasks.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public abstract class AbstractTaskList implements Iterable<Task>, Cloneable, Serializable {
@@ -18,5 +17,10 @@ public abstract class AbstractTaskList implements Iterable<Task>, Cloneable, Ser
                 && task.getTime().isBefore(to))
                 .forEach(task -> answerList.add(task));
         return answerList;
+    }
+    public final void printIndexTitleTask() {
+        for (int i = 0; i < size(); ++i) {
+            System.out.println("#" + i + " " + getTask(i).getTitle());
+        }
     }
 }
