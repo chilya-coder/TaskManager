@@ -29,13 +29,13 @@ public class ModifyTasksView {
         if (actionChoice.equals(ActionChoice.ADD)) {
             return new TaskAction(actionChoice);
         }
-        while (model.size() == 0 && actionChoice.equals(ActionChoice.UPDATE)
-                || actionChoice.equals(ActionChoice.DELETE)) {
+        while ((model.size() == 0) && (actionChoice.equals(ActionChoice.UPDATE)
+                || actionChoice.equals(ActionChoice.DELETE))) {
             System.out.println("You need to add tasks to the list first!");
             actionChoice = getTaskAction();
         }
         new ShowTaskView(model).printIndexTitleTask();
-        int index = getTaskIndex(model) + 1;
+        int index = getTaskIndex(model) - 1;
         return new TaskAction(actionChoice, index);
     }
     /**
@@ -82,18 +82,20 @@ public class ModifyTasksView {
      */
     public int getTaskIndex(AbstractTaskList model) {
         int id = 0;
-        while (id <= 0 || id > model.size()) {
+        while (true) {
             System.out.print("Enter number of your chosen task: #");
             try {
                 id = scanner.nextInt();
             } catch (InputMismatchException е) {
                 System.out.println("You entered invalid index");
             }
-            if (id <= 0 || id > model.size()) {
+            if (id <= 0 || id > model.size() + 1) {
                 System.out.println("That number doesn't exist! Try another");
             }
+            else {
+                return id;
+            }
         }
-        return id;
     }
 
     public String getTaskTitle() {
