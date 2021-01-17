@@ -17,11 +17,10 @@ public class ModifyController extends Controller {
 
     @Override
     public void action() {
-        TaskAction taskAction = null;
+        TaskAction taskAction;
         try {
             taskAction = view.getTaskActionFromUser(model);
-        }
-        catch (NoSuchElementException e) {
+        } catch (NoSuchElementException e) {
             System.out.println("Invalid value was put");
             action();
             return;
@@ -46,9 +45,9 @@ public class ModifyController extends Controller {
         LocalDateTime start = it.next();
         if (!it.hasNext()) {
             task = new Task(view.getTaskTitle(), start);
-        }
-        else {
-            task = new Task(view.getTaskTitle(), start, it.next(), view.getInterval());
+        } else {
+            task = new Task(view.getTaskTitle(),
+                    start, it.next(), view.getInterval());
         }
         task.setActive(view.getTaskIsActive());
         model.add(task);
