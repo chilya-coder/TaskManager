@@ -1,24 +1,18 @@
 package ua.edu.sumdu.j2se.chimyrys.tasks.controller;
 
-import ua.edu.sumdu.j2se.chimyrys.tasks.model.TaskIO;
 import ua.edu.sumdu.j2se.chimyrys.tasks.view.MainView;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.NoSuchElementException;
 
 public class MainController extends Controller {
-    public MainController() {
-        File file = new File("test.json");
-        try (FileInputStream fileInputStream = new FileInputStream(file)) {
-            file.createNewFile();
-            TaskIO.read(model, fileInputStream);
-        } catch (IOException ignored) {
-            System.out.println("No tasks were found");
-        }
-    }
 
+    private MainView view;
+
+    public MainController() {
+        model = DataReadWriteController.readData();
+        view = new MainView();
+        action();
+    }
     /**
      * Method that calls specified controller via
      * user's choice provided in MainView.
@@ -27,41 +21,37 @@ public class MainController extends Controller {
      */
     @Override
     public void action() {
-        //model = new ArrayTaskList();
-        MainView view = new MainView();
-        view.printMainMenu();
-        UserChoice userChoice = null;
-        try {
-             userChoice = view.getUserChoice();
-        } catch (NoSuchElementException e) {
-            System.out.println("Invalid value was put");
-            action();
-            return;
-        }
-        Controller controller = null;
-        boolean go = true;
-        switch (userChoice) {
-            case SHOW_ALL_TASKS:
-                controller = new AllTasksController();
-                break;
-            case SHOW_CALENDAR:
-                controller = new CalendarController();
-                break;
-            case ADD_UPDATE_DELETE_TASK:
-                controller = new ModifyController();
-                break;
-            case SHOW_TASK_INFO:
-                controller = new ShowTaskController();
-                break;
-            case QUIT:
-                System.out.println("See you later!");
-                System.exit(0);
-                break;
-        }
-        try {
+        do {
+            view.printMainMenu();
+            UserChoice userChoice;
+            try {
+                userChoice = view.getUserChoice();
+            } catch (NoSuchElementException e) {
+                System.out.println("Invalid value was put");
+                action();
+                return;
+            }
+            Controller controller = this;
+            switch (userChoice) {
+                case SHOW_ALL_TASKS:
+                    controller = new ShowAllTasksController(model);
+                    break;
+                case SHOW_CALENDAR:
+                    controller = new CalendarController(model);
+                    break;
+                case ADD_UPDATE_DELETE_TASK:
+                    controller = new ModifyController(model);
+                    break;
+                case SHOW_TASK_INFO:
+                    controller = new TaskInfoController(model);
+                    break;
+                case QUIT:
+                    System.out.println("See you later!");
+                    System.exit(0);
+                    break;
+            }
             controller.action();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            DataReadWriteController.writeData(model);
+        } while (true);
     }
 }
