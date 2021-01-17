@@ -4,7 +4,7 @@ import ua.edu.sumdu.j2se.chimyrys.tasks.model.AbstractTaskList;
 import ua.edu.sumdu.j2se.chimyrys.tasks.view.ModifyTasksView;
 import ua.edu.sumdu.j2se.chimyrys.tasks.view.ShowTaskView;
 
-public class TaskInfoController extends Controller{
+public class TaskInfoController extends Controller {
     private ShowTaskView view;
     private ModifyTasksView indexView;
     public TaskInfoController(AbstractTaskList model) {
