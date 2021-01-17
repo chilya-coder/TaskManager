@@ -5,7 +5,12 @@ import ua.edu.sumdu.j2se.chimyrys.tasks.controller.TaskAction;
 import ua.edu.sumdu.j2se.chimyrys.tasks.model.AbstractTaskList;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 public class ModifyTasksView {
     private Scanner scanner;
@@ -29,10 +34,9 @@ public class ModifyTasksView {
             System.out.println("You need to add tasks to the list first!");
             actionChoice = getTaskAction();
         }
-        model.printIndexTitleTask();
+        new ShowTaskView(model).printIndexTitleTask();
         int index = getTaskIndex(model) + 1;
         return new TaskAction(actionChoice, index);
-
     }
     /**
      * Method that prints menu of actions
@@ -76,14 +80,17 @@ public class ModifyTasksView {
      * @param model AbtsractTaskList
      * @return int
      */
-    private int getTaskIndex(AbstractTaskList model) {
+    public int getTaskIndex(AbstractTaskList model) {
         int id = 0;
         while (id <= 0 || id > model.size()) {
-            System.out.print("Enter index of your chosen task: ");
+            System.out.print("Enter number of your chosen task: #");
             try {
                 id = scanner.nextInt();
             } catch (InputMismatchException е) {
                 System.out.println("You entered invalid index");
+            }
+            if (id <= 0 || id > model.size()) {
+                System.out.println("That number doesn't exist! Try another");
             }
         }
         return id;
@@ -95,7 +102,8 @@ public class ModifyTasksView {
         try {
             title = scanner.nextLine();
         } catch (NoSuchElementException e) {
-            System.out.println("You entered invalid value. Enter true or false");
+            System.out.println("You entered invalid value. "
+                    + "Enter true or false");
             title = getTaskTitle();
         }
         return scanner.nextLine();
@@ -107,7 +115,8 @@ public class ModifyTasksView {
         try {
             isActive = scanner.nextBoolean();
         } catch (NoSuchElementException e) {
-            System.out.println("You entered invalid value. Enter true or false");
+            System.out.println("You entered invalid value. "
+                    + "Enter true or false");
             isActive = getTaskIsActive();
         }
         return isActive;
@@ -157,5 +166,4 @@ public class ModifyTasksView {
         }
         return time;
     }
-
 }
