@@ -18,9 +18,4 @@ public abstract class AbstractTaskList implements Iterable<Task>, Cloneable, Ser
                 .forEach(task -> answerList.add(task));
         return answerList;
     }
-    public final void printIndexTitleTask() {
-        for (int i = 0; i < size(); ++i) {
-            System.out.println("#" + i + " " + getTask(i).getTitle());
-        }
-    }
 }
