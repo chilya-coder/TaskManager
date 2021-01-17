@@ -3,9 +3,11 @@ package ua.edu.sumdu.j2se.chimyrys.tasks.controller;
 import ua.edu.sumdu.j2se.chimyrys.tasks.model.AbstractTaskList;
 import ua.edu.sumdu.j2se.chimyrys.tasks.model.Task;
 import ua.edu.sumdu.j2se.chimyrys.tasks.view.ModifyTasksView;
+import ua.edu.sumdu.j2se.chimyrys.tasks.view.ShowTaskView;
 
 import java.time.LocalDateTime;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 public class ModifyController extends Controller {
@@ -54,10 +56,23 @@ public class ModifyController extends Controller {
         return true;
     }
     public boolean updateTask(int index) {
-        return true;
-    }
-    public boolean deleteTask(int index) {
+        new ShowTaskView(model).printIndexTitleTask();
+        Task task = model.getTask(index);
+        task.setTitle(view.getTaskTitle());
+        task.setActive(view.getTaskIsActive());
+        List<LocalDateTime> localDateTimes = view.addTimeToTaskView();
+        if (localDateTimes.size() == 2) {
+            task.setTime(localDateTimes.get(0),
+                    localDateTimes.get(1), view.getInterval());
+        } else {
+            task.setTime(localDateTimes.get(0));
+        }
         return true;
     }
 
+    public boolean deleteTask(int index) {
+        new ShowTaskView(model).printIndexTitleTask();
+        model.remove(model.getTask(index));
+        return true;
+    }
 }
