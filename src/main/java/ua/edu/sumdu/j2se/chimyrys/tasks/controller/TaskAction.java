@@ -4,6 +4,15 @@ public class TaskAction {
     private ActionChoice action;
     private int taskIndex;
 
+    public TaskAction(ActionChoice action, int taskIndex) {
+        this.action = action;
+        this.taskIndex = taskIndex;
+    }
+    public TaskAction(ActionChoice action) {
+        this.action = action;
+        taskIndex = -1;
+    }
+
     public ActionChoice getAction() {
         return action;
     }
