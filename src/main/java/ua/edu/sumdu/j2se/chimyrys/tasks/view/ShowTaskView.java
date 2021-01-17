@@ -36,7 +36,8 @@ public class ShowTaskView {
                     + task.getEndTime().format(formatter));
             System.out.println("Interval: "
                     + task.getRepeatInterval());
+        } else {
+            System.out.println("Time: " + task.getTime().format(formatter));
         }
-        System.out.println("Time: " + task.getTime().format(formatter));
     }
 }
