@@ -3,9 +3,15 @@ package ua.edu.sumdu.j2se.chimyrys.tasks.controller;
 import ua.edu.sumdu.j2se.chimyrys.tasks.model.AbstractTaskList;
 
 public abstract class Controller {
+    /**
+     * Abstract class that consists of AbstractTaskList model and action() method
+     */
     protected AbstractTaskList model;
     public abstract void action();
     public Controller() {
-        action();
+        super();
+    }
+    public Controller(AbstractTaskList model) {
+        this.model = model;
     }
 }
