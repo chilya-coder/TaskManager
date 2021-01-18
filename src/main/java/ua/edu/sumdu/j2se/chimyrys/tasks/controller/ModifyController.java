@@ -37,6 +37,8 @@ public class ModifyController extends Controller {
             case DELETE:
                 deleteTask(taskAction.getTaskIndex());
                 break;
+            case BACK:
+                return;
             default:
         }
     }

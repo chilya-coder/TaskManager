@@ -1,10 +1,12 @@
 package ua.edu.sumdu.j2se.chimyrys.tasks.view;
 
+import ua.edu.sumdu.j2se.chimyrys.tasks.StringUtils;
 import ua.edu.sumdu.j2se.chimyrys.tasks.controller.ActionChoice;
 import ua.edu.sumdu.j2se.chimyrys.tasks.controller.TaskAction;
 import ua.edu.sumdu.j2se.chimyrys.tasks.model.AbstractTaskList;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.InputMismatchException;
@@ -26,6 +28,9 @@ public class ModifyTasksView {
     public TaskAction getTaskActionFromUser(AbstractTaskList model) {
         printMenu();
         ActionChoice actionChoice = getTaskAction();
+        if (actionChoice.equals(ActionChoice.BACK)) {
+            return new TaskAction(actionChoice);
+        }
         if (actionChoice.equals(ActionChoice.ADD)) {
             return new TaskAction(actionChoice);
         }
@@ -46,6 +51,7 @@ public class ModifyTasksView {
         System.out.println("1 - add new task");
         System.out.println("2 - update existing task");
         System.out.println("3 - delete task");
+        System.out.println("4 - back");
     }
     /**
      * Method that gets user's choice as int and checks if
@@ -148,20 +154,22 @@ public class ModifyTasksView {
     }
     public LocalDateTime getTaskTime() {
         LocalDateTime time = null;
+        System.out.println(StringUtils.INVALID_DATA_INPUT
+                + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         try {
-            System.out.println("Enter year, for e.g. 2021: ");
-            int year = scanner.nextInt();
-            System.out.println("Enter month, for e.g. 01: ");
-            int month = scanner.nextInt();
-            System.out.println("Enter day, for e.g. 12: ");
-            int day = scanner.nextInt();
-            System.out.println("Enter hour, for e.g. 13: ");
-            int hour = scanner.nextInt();
-            System.out.println("Enter minute, for e.g. 05: ");
-            int minute = scanner.nextInt();
-            System.out.println("Enter second, for e.g. 00: ");
-            int second = scanner.nextInt();
-            time = LocalDateTime.of(year, month, day, hour, minute, second);
+                System.out.println("Enter year, for e.g. 2021: ");
+                int year = scanner.nextInt();
+                System.out.println("Enter month, for e.g. 01: ");
+                int month = scanner.nextInt();
+                System.out.println("Enter day, for e.g. 12: ");
+                int day = scanner.nextInt();
+                System.out.println("Enter hour, for e.g. 13: ");
+                int hour = scanner.nextInt();
+                System.out.println("Enter minute, for e.g. 05: ");
+                int minute = scanner.nextInt();
+                System.out.println("Enter second, for e.g. 00: ");
+                int second = scanner.nextInt();
+                time = LocalDateTime.of(year, month, day, hour, minute, second);
         } catch (NoSuchElementException e) {
             System.out.println("You entered invalid values. "
                     + "Enter integer numbers only");
