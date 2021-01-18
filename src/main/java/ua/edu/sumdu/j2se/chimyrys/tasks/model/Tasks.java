@@ -23,25 +23,26 @@ public class Tasks {
     public static SortedMap<LocalDateTime, Set<Task>>
     calendar(Iterable<Task> tasks, LocalDateTime start, LocalDateTime end) {
         SortedMap<LocalDateTime, Set<Task>> result = new TreeMap<>();
-        Iterator<Task> taskIterator = incoming(tasks, start, end).iterator();
-        while (taskIterator.hasNext()) {
-            Task currentTask = taskIterator.next();
-                Set<Map.Entry<LocalDateTime, Set<Task>>> entries = result.entrySet();
-                LocalDateTime currentStartTime = currentTask.nextTimeAfter(start);
-                while ((currentStartTime.isBefore(end) || currentStartTime.equals(end))
-                        && (currentStartTime.isAfter(start) ||  currentStartTime.equals(start))) {
-                    Set<Task> currentDateSet = new HashSet<>();
-                    if (!result.isEmpty()) {
-                        for (Map.Entry<LocalDateTime, Set<Task>> entry : entries) {
-                            if (entry.getKey().equals(currentStartTime)) {
-                                currentDateSet = result.get(currentStartTime);
-                                currentDateSet.add(currentTask);
-                            }
+        Set<Map.Entry<LocalDateTime, Set<Task>>> entries = result.entrySet();
+        for (Task currentTask : incoming(tasks, start, end)) {
+            LocalDateTime currentStartTime = currentTask.nextTimeAfter(start);
+            while ((currentStartTime.isBefore(end) || currentStartTime.equals(end))
+                    && (currentStartTime.isAfter(start) || currentStartTime.equals(start))) {
+                Set<Task> currentDateSet = new HashSet<>();
+                if (!result.isEmpty()) {
+                    for (Map.Entry<LocalDateTime, Set<Task>> entry : entries) {
+                        if (entry.getKey().equals(currentStartTime)) {
+                            currentDateSet = result.get(currentStartTime);
+                            currentDateSet.add(currentTask);
                         }
                     }
-                    currentDateSet.add(currentTask);
-                    result.put(currentStartTime, currentDateSet);
-                    currentStartTime = currentStartTime.plusSeconds(currentTask.getRepeatInterval());
+                }
+                currentDateSet.add(currentTask);
+                result.put(currentStartTime, currentDateSet);
+                if (!currentTask.isRepeated()) {
+                    break;
+                }
+                currentStartTime = currentStartTime.plusSeconds(currentTask.getRepeatInterval());
             }
         }
         return result;
