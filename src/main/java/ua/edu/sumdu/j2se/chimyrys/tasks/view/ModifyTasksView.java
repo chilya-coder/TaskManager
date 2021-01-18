@@ -5,6 +5,7 @@ import ua.edu.sumdu.j2se.chimyrys.tasks.controller.ActionChoice;
 import ua.edu.sumdu.j2se.chimyrys.tasks.controller.TaskAction;
 import ua.edu.sumdu.j2se.chimyrys.tasks.model.AbstractTaskList;
 
+import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -93,12 +94,11 @@ public class ModifyTasksView {
             try {
                 id = scanner.nextInt();
             } catch (InputMismatchException е) {
-                System.out.println("You entered invalid index");
+                System.out.println(StringUtils.INVALID_INPUT_VALUE);
             }
             if (id <= 0 || id > model.size() + 1) {
                 System.out.println("That number doesn't exist! Try another");
-            }
-            else {
+            } else {
                 return id;
             }
         }
@@ -110,8 +110,7 @@ public class ModifyTasksView {
         try {
             title = scanner.nextLine();
         } catch (NoSuchElementException e) {
-            System.out.println("You entered invalid value. "
-                    + "Enter true or false");
+            System.out.println(StringUtils.INVALID_INPUT_VALUE);
             title = getTaskTitle();
         }
         return scanner.nextLine();
@@ -123,8 +122,8 @@ public class ModifyTasksView {
         try {
             isActive = scanner.nextBoolean();
         } catch (NoSuchElementException e) {
-            System.out.println("You entered invalid value. "
-                    + "Enter true or false");
+            System.out.println(StringUtils.INVALID_INPUT_VALUE);
+            scanner.nextLine();
             isActive = getTaskIsActive();
         }
         return isActive;
@@ -135,9 +134,9 @@ public class ModifyTasksView {
         try {
             isRepeated = scanner.nextBoolean();
         } catch (NoSuchElementException e) {
-            System.out.println("You entered invalid value. "
-                    + "Enter true or false");
-            isRepeated = getTaskIsActive();
+            System.out.println(StringUtils.INVALID_INPUT_VALUE);
+            scanner.nextLine();
+            isRepeated = getIsRepeated();
         }
         return isRepeated;
     }
@@ -147,33 +146,42 @@ public class ModifyTasksView {
         try {
             interval = scanner.nextInt();
         } catch (NoSuchElementException e) {
-            System.out.println("You entered invalid value. Enter integer");
+            System.out.println(StringUtils.INVALID_INPUT_VALUE);
             interval = getInterval();
         }
         return interval;
     }
     public LocalDateTime getTaskTime() {
         LocalDateTime time = null;
-        System.out.println(StringUtils.INVALID_DATA_INPUT
+        System.out.println(StringUtils.INVALID_DATE_INPUT
                 + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         try {
                 System.out.println("Enter year, for e.g. 2021: ");
-                int year = scanner.nextInt();
+                int year = getInt();
                 System.out.println("Enter month, for e.g. 01: ");
-                int month = scanner.nextInt();
+                int month = getInt();
                 System.out.println("Enter day, for e.g. 12: ");
-                int day = scanner.nextInt();
+                int day = getInt();
                 System.out.println("Enter hour, for e.g. 13: ");
-                int hour = scanner.nextInt();
+                int hour = getInt();
                 System.out.println("Enter minute, for e.g. 05: ");
-                int minute = scanner.nextInt();
+                int minute = getInt();
                 System.out.println("Enter second, for e.g. 00: ");
-                int second = scanner.nextInt();
+                int second = getInt();
                 time = LocalDateTime.of(year, month, day, hour, minute, second);
-        } catch (NoSuchElementException e) {
-            System.out.println("You entered invalid values. "
-                    + "Enter integer numbers only");
+        } catch (DateTimeException e) {
+            System.out.println(StringUtils.INVALID_INPUT_VALUE);
+            time = getTaskTime();
         }
         return time;
+    }
+    private int getInt() {
+        try {
+            return scanner.nextInt();
+        } catch (NoSuchElementException e) {
+            System.out.println(StringUtils.INVALID_INPUT_VALUE);
+            scanner.nextLine();
+            return getInt();
+        }
     }
 }
