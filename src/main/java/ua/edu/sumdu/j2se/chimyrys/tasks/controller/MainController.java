@@ -1,14 +1,16 @@
 package ua.edu.sumdu.j2se.chimyrys.tasks.controller;
 
+import org.apache.log4j.Logger;
+import ua.edu.sumdu.j2se.chimyrys.tasks.StringUtils;
 import ua.edu.sumdu.j2se.chimyrys.tasks.view.MainView;
 
 import java.util.NoSuchElementException;
 
 public class MainController extends Controller {
-
     private MainView view;
 
     public MainController() {
+        logger.info(this.getClass() + StringUtils.CONSTRUCTOR_WORKED);
         model = DataReadWriteController.readData();
         view = new MainView();
         action();
@@ -21,37 +23,46 @@ public class MainController extends Controller {
      */
     @Override
     public void action() {
+        logger.info(this.getClass() + StringUtils.ACTION_WORKED);
         do {
             view.printMainMenu();
             UserChoice userChoice;
             try {
                 userChoice = view.getUserChoice();
             } catch (NoSuchElementException e) {
-                System.out.println("Invalid value was put");
+                logger.error(StringUtils.INVALID_INPUT_VALUE);
+                System.out.println(StringUtils.INVALID_INPUT_VALUE);
                 action();
                 return;
             }
             Controller controller = this;
+            logger.info("Main menu has worked");
             switch (userChoice) {
                 case SHOW_ALL_TASKS:
                     controller = new ShowAllTasksController(model);
+                    logger.info("User chose to show all tasks");
                     break;
                 case SHOW_CALENDAR:
                     controller = new CalendarController(model);
+                    logger.info("User chose to show calendar");
                     break;
                 case ADD_UPDATE_DELETE_TASK:
                     controller = new ModifyController(model);
+                    logger.info("User chose to add/update/delete task");
                     break;
                 case SHOW_TASK_INFO:
                     controller = new TaskInfoController(model);
+                    logger.info("User chose to show detailed info about task");
                     break;
                 case QUIT:
                     System.out.println("See you later!");
+                    logger.info("User chose to quit");
                     System.exit(0);
                     break;
             }
             controller.action();
             DataReadWriteController.writeData(model);
+            logger.info("Tasks' data has been put into file");
         } while (true);
     }
 }
