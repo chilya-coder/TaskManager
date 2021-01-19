@@ -11,13 +11,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class DataReadWriteController {
-    final static Logger logger = Logger.getLogger(MainController.class);
+    final static Logger logger = Logger.getLogger(DataReadWriteController.class);
     /**
      * method that allows to write data into file using model
      * @param model AbstractTaskList
      */
     public static void writeData(AbstractTaskList model) {
-        logger.info("DataReadWriteController method writeData has worked");
+        logger.debug("method writeData has worked");
         try {
             TaskIO.write(model, new FileWriter(StringUtils.FILE_PATH));
         } catch (IOException e) {
@@ -30,7 +30,7 @@ public class DataReadWriteController {
      * @return arrayTaskList AbstractTaskList
      */
     public static AbstractTaskList readData() {
-        logger.info("DataReadWriteController method readData has worked");
+        logger.debug("method readData has worked");
         AbstractTaskList arrayTaskList = new ArrayTaskList();
         try {
             TaskIO.read(arrayTaskList, new FileReader(StringUtils.FILE_PATH));

@@ -6,6 +6,5 @@ public class StringUtils {
     public static final String INVALID_DATE_INPUT = "Note: the date should "
             + "be bigger than current if you are adding new task to system ";
     public static final String INVALID_INPUT_VALUE = "Invalid value was put";
-    public static final String ACTION_WORKED = " action() has worked";
-    public static final String CONSTRUCTOR_WORKED = " constructor has worked";
+    public static final String ACTION_WORKED = "action() has worked";
 }

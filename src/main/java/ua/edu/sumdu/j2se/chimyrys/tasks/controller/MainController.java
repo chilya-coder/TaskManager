@@ -7,10 +7,11 @@ import ua.edu.sumdu.j2se.chimyrys.tasks.view.MainView;
 import java.util.NoSuchElementException;
 
 public class MainController extends Controller {
+    private final static Logger logger = Logger.getLogger(MainController.class);
     private MainView view;
 
     public MainController() {
-        logger.info(this.getClass() + StringUtils.CONSTRUCTOR_WORKED);
+        super();
         model = DataReadWriteController.readData();
         view = new MainView();
         action();
@@ -23,7 +24,7 @@ public class MainController extends Controller {
      */
     @Override
     public void action() {
-        logger.info(this.getClass() + StringUtils.ACTION_WORKED);
+        logger.debug(StringUtils.ACTION_WORKED);
         do {
             view.printMainMenu();
             UserChoice userChoice;
@@ -36,7 +37,7 @@ public class MainController extends Controller {
                 return;
             }
             Controller controller = this;
-            logger.info("Main menu has worked");
+            logger.debug("Main menu has worked");
             switch (userChoice) {
                 case SHOW_ALL_TASKS:
                     controller = new ShowAllTasksController(model);
@@ -62,7 +63,7 @@ public class MainController extends Controller {
             }
             controller.action();
             DataReadWriteController.writeData(model);
-            logger.info("Tasks' data has been put into file");
+            logger.debug("Tasks' data has been put into file");
         } while (true);
     }
 }

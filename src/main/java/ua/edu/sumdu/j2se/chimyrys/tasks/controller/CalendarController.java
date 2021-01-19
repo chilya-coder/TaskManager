@@ -11,11 +11,11 @@ import java.util.List;
 
 
 public class CalendarController extends Controller {
+    private final static Logger logger = Logger.getLogger(CalendarController.class);
     private CalendarView calendarView;
     public CalendarController(AbstractTaskList model) {
         super(model);
         calendarView = new CalendarView();
-        logger.info(this.getClass() + StringUtils.CONSTRUCTOR_WORKED);
     }
     @Override
     public void action() {
