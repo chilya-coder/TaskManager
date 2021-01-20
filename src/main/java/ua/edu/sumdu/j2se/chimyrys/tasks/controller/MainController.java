@@ -13,6 +13,9 @@ public class MainController extends Controller {
     public MainController() {
         super();
         model = DataReadWriteController.readData();
+        NotifyController notifyController = new NotifyController(model);
+        notifyController.setDaemon(true);
+        notifyController.start();
         view = new MainView();
         action();
     }

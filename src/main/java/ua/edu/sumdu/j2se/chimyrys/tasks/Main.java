@@ -8,5 +8,6 @@ public class Main {
     public static void main(String[] args) {
         logger.info("Program has started");
         MainController controller = new MainController();
+
     }
 }
