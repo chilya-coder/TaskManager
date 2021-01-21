@@ -32,16 +32,13 @@ public class ModifyTasksView {
         logger.debug("getTaskActionFromUser has worked");
         printMenu();
         ActionChoice actionChoice = getTaskAction();
-        if (actionChoice.equals(ActionChoice.BACK)) {
-            return new TaskAction(actionChoice);
-        }
-        if (actionChoice.equals(ActionChoice.ADD)) {
+        if (actionChoice.equals(ActionChoice.BACK) || actionChoice.equals(ActionChoice.ADD)) {
             return new TaskAction(actionChoice);
         }
         while ((model.size() == 0) && (actionChoice.equals(ActionChoice.UPDATE)
                 || actionChoice.equals(ActionChoice.DELETE))) {
             System.out.println("You need to add tasks to the list first!");
-            actionChoice = getTaskAction();
+            return getTaskActionFromUser(model);
         }
         new ShowTaskView(model).printIndexTitleTask();
         int index = getTaskIndex(model) - 1;
@@ -76,7 +73,6 @@ public class ModifyTasksView {
     public List<LocalDateTime> addTimeToTaskView() {
         logger.debug("addTimeToTaskView method has worked");
         List<LocalDateTime> localDateTimes = new ArrayList<>();
-        System.out.println("You're adding new task to list: ");
         if (getIsRepeated()) {
             System.out.println("Enter start time for your task:");
             localDateTimes.add(getTaskTime());
@@ -116,6 +112,7 @@ public class ModifyTasksView {
     }
 
     public String getTaskTitle() {
+        Scanner scanner = new Scanner(System.in);
         logger.debug("getTaskTitle method has worked");
         System.out.println("Enter title of your task: ");
         String title;
@@ -163,15 +160,8 @@ public class ModifyTasksView {
     public int getInterval() {
         logger.debug("getInterval method has worked");
         System.out.println("Enter interval of task as integer value: ");
-        int interval;
-        try {
-            interval = scanner.nextInt();
-            logger.info("User entered following interval: " + interval);
-        } catch (NoSuchElementException e) {
-            logger.error(StringUtils.INVALID_INPUT_VALUE);
-            System.out.println(StringUtils.INVALID_INPUT_VALUE);
-            interval = getInterval();
-        }
+        int interval = getInt();
+        logger.info("User entered following interval: " + interval);
         return interval;
     }
     public LocalDateTime getTaskTime() {
@@ -190,9 +180,7 @@ public class ModifyTasksView {
             int hour = getInt();
             System.out.println("Enter minute, for e.g. 05: ");
             int minute = getInt();
-            System.out.println("Enter second, for e.g. 00: ");
-            int second = getInt();
-            time = LocalDateTime.of(year, month, day, hour, minute, second);
+            time = LocalDateTime.of(year, month, day, hour, minute, 0);
             logger.info("User entered following date: " + time);
         } catch (DateTimeException e) {
             logger.error(StringUtils.INVALID_INPUT_VALUE);

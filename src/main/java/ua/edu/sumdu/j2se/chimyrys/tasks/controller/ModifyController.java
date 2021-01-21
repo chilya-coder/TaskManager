@@ -54,13 +54,14 @@ public class ModifyController extends Controller {
 
     private boolean addTask() {
         logger.debug("addTask() method has worked");
+        String title = view.getTaskTitle();
         Iterator<LocalDateTime> it = view.addTimeToTaskView().iterator();
         Task task;
         LocalDateTime start = it.next();
         if (!it.hasNext()) {
-            task = new Task(view.getTaskTitle(), start);
+            task = new Task(title, start);
         } else {
-            task = new Task(view.getTaskTitle(),
+            task = new Task(title,
                     start, it.next(), view.getInterval());
         }
         task.setActive(view.getTaskIsActive());
@@ -70,7 +71,6 @@ public class ModifyController extends Controller {
     }
     private boolean updateTask(int index) {
         logger.debug("updateTask() method has worked");
-        new ShowTaskView(model).printIndexTitleTask();
         Task task = model.getTask(index);
         task.setTitle(view.getTaskTitle());
         task.setActive(view.getTaskIsActive());
